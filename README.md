@@ -1,4 +1,3 @@
-```markdown
 # Splunk Enterprise Deployment in AWS
 
 This repository provides a foundational setup for deploying and managing Splunk Enterprise in AWS using a combination of Python, Bash, and YAML configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
@@ -7,11 +6,13 @@ This repository provides a foundational setup for deploying and managing Splunk 
 
 ## Directory Structure
 
-```
+├── splunk\_deployment.yaml # YAML configuration for Splunk deployment
 
-. ├── splunk\_deployment.yaml # YAML configuration for Splunk deployment ├── splunk\_deployer.py # Python script to provision and manage AWS infrastructure ├── configure\_splunk\_node.sh # Bash script for configuring individual Splunk nodes ├── README.md # Documentation
+├── splunk\_deployer.py # Python script to provision and manage AWS infrastructure
 
-````yaml
+├── configure\_splunk\_node.sh # Bash script for configuring individual Splunk nodes
+
+├── README.md # Documentation
 
 ---
 
@@ -169,9 +170,7 @@ License
 
 This project is open-sourced under the MIT License.
 
-```yaml
 
 ---
 
-This `README.md` file serves as a comprehensive guide for deploying and managing Splunk Enterprise in AWS. Let me know if you need further modifications or additional sections!
-```
+This will serves as a comprehensive guide for deploying and managing Splunk Enterprise in AWS as it grows. This project and its configurations are entirely original and based on a hypothetical design approach for a mock-up company. It does not replicate, copy, or reuse any proprietary configurations or designs from any previous companies or projects. Instead, it reflects my personal approach to redesigning and managing Splunk Enterprise in AWS, based on industry best practices and my professional expertise. Let me know if you need further modifications or additional sections!
