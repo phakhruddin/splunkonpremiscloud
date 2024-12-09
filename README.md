@@ -9,68 +9,73 @@ This repository provides a foundational setup for deploying and managing Splunk 
 
 ```
 
-. ├── python/
-│ ├── splunk/ │
-│ ├── __init__.py # Module initializer for Python
-│ │    ├── deployer.py # Deployment management for Splunk
-│ │    ├── node_manager.py # EC2 node configuration and management
-│ │    ├── utils/
-│ │    │    ├── __init__.py # Utility module initializer
-│ │    │    ├── yaml_loader.py # Utility for loading YAML configuration
-│ │    │    ├── s3_backend.py # Utility for managing S3 backend
-│ │    │    ├── ec2_helper.py # Helper for EC2 operations
-│ ├── tests/
-│ │    │    ├── test_deployer.py # Unit tests for deployer.py
-│ │    │    ├── test_node_manager.py # Unit tests for node\_manager.py
-│ │    │    ├── test_utils/
-│ │    │    ├── test_yaml_loader.py # Unit tests for yaml\_loader.py
-│ │    │    ├── test_s3_backend.py # Unit tests for s3\_backend.py
-│ ├── main.py # Entry point for the Python codebase
-│ ├── bash/
-│ ├── scripts/
-│ │    ├── configure_splunk_node.sh # Script to configure Splunk nodes
-│ │    ├── deploy_infrastructure.sh # Script to deploy AWS infrastructure
-│ │    ├── common_functions.sh # Reusable functions for Bash scripts
-│ ├── tests/
-│ │    ├── test_configure_splunk_node.sh # Tests for configuring Splunk nodes
-│ │    ├── test_deploy_infrastructure.sh # Tests for infrastructure deployment
-│ ├── .github/
-│ ├── CODEOWNERS # Default reviewers for PRs
-│ ├── workflows/
-│ ├── python-ci.yml # GitHub Actions workflow for Python
-│ ├── bash-ci.yml # GitHub Actions workflow for Bash
-│ ├── splunk\_deployment.yaml # Configuration file for deployment
-│ terraform-root/
-│ ├── modules/
-│ │   ├── aws/
-│ │   │   ├── main.tf
-│ │   │   ├── outputs.tf
-│ │   │   ├── variables.tf
-│ │   ├── splunk/
-│ │   │   ├── main.tf
-│ │   │   ├── outputs.tf
-│ │   │   ├── variables.tf
-│ │   ├── monitoring/                 # Optional
-│ │   │   ├── main.tf
-│ │   │   ├── outputs.tf
-│ │   │   ├── variables.tf
-│ │   ├── iam/                        # Optional
-│ │       ├── main.tf
-│ │       ├── outputs.tf
-│ │       ├── variables.tf
-│ ├── envs/
-│ │   ├── dev/
-│ │   │   ├── main.tf
-│ │   ├── prod/
-│ │       ├── main.tf
-│ ├── backend-config.tf               # Backend S3 and DynamoDB
-│ ├── vpc_config.yaml                 # YAML Configuration File
-│ ├── variables.tf                    # Root-level variables
-│ ├── outputs.tf                      # Root-level outputs
-│ └── main.tf                         # Root-level orchestration
-├── README.md # Project documentation
-├── requirements.txt # Python dependencies
-├── setup.py # Python package setup (optional)
+.
+├── Makefile
+├── README.md
+├── bash
+│   ├── scripts
+│   │   ├── common_functions.sh
+│   │   ├── configure_splunk_node.sh
+│   │   └── deploy_infrastructure.sh
+│   └── tests
+│       ├── test_configure_splunk_node.sh
+│       └── test_deploy_infrastructure.sh
+├── python
+│   ├── main.py
+│   ├── scripts
+│   │   └── setup_splunk.sh
+│   ├── splunk
+│   │   ├── __init__.py
+│   │   ├── deployer.py
+│   │   ├── node_manager.py
+│   │   ├── tests
+│   │   │   ├── test_deployer.py
+│   │   │   ├── test_node_manager.py
+│   │   │   └── test_utils
+│   │   │       ├── test_splunk_api.py
+│   │   │       └── test_yaml_loader.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── ec2_helper.py
+│   │       ├── ec2_manager.py
+│   │       ├── s3_backend.py
+│   │       ├── splunk_api.py
+│   │       └── yaml_loader.py
+│   └── tests
+│       ├── test_deployer.py
+│       ├── test_node_manager.py
+│       └── test_utils
+│           ├── test_s3_backend.py
+│           └── test_yaml_loader.py
+├── requirements.txt
+├── setup.py
+├── splunk_deployment.yaml
+└── terraform
+    ├── envs
+    │   ├── dev
+    │   │   ├── backend.tf
+    │   │   ├── main.tf
+    │   │   └── variables.tfvars
+    │   └── prod
+    │       ├── backend.tf
+    │       ├── main.tf
+    │       └── variables.tfvars
+    ├── modules
+    │   ├── aws
+    │   │   ├── nacl
+    │   │   │   ├── main.tf
+    │   │   │   ├── outputs.tf
+    │   │   │   └── variables.tf
+    │   │   └── vpc
+    │   │       ├── main.tf
+    │   │       ├── outputs.tf
+    │   │       └── variables.tf
+    │   └── splunk
+    │       ├── main.tf
+    │       ├── outputs.tf
+    │       └── variables.tf
+    └── vpc_config.yaml
+
 ```
 
 ---
