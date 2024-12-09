@@ -1,1 +1,1 @@
-# EC2 node configuration and management
+# Splunk Node Manager: Manages Splunk nodes

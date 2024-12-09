@@ -1,1 +1,1 @@
-# Deployment management for Splunk
+# Splunk Deployer: Handles deployment of Splunk components
