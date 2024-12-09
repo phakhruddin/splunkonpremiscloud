@@ -13,27 +13,27 @@ This repository provides a foundational setup for deploying and managing Splunk 
 │ ├── splunk/ │
 │ ├── __init__.py # Module initializer for Python
 │ │    ├── deployer.py # Deployment management for Splunk
-│ │    ├── node\_manager.py # EC2 node configuration and management
+│ │    ├── node_manager.py # EC2 node configuration and management
 │ │    ├── utils/
 │ │    │    ├── __init__.py # Utility module initializer
-│ │    │    ├── yaml\_loader.py # Utility for loading YAML configuration
-│ │    │    ├── s3\_backend.py # Utility for managing S3 backend
-│ │    │    ├── ec2\_helper.py # Helper for EC2 operations
+│ │    │    ├── yaml_loader.py # Utility for loading YAML configuration
+│ │    │    ├── s3_backend.py # Utility for managing S3 backend
+│ │    │    ├── ec2_helper.py # Helper for EC2 operations
 │ ├── tests/
-│ │    │    ├── test\_deployer.py # Unit tests for deployer.py
-│ │    │    ├── test\_node\_manager.py # Unit tests for node\_manager.py
-│ │    │    ├── test\_utils/
-│ │    │    ├── test\_yaml\_loader.py # Unit tests for yaml\_loader.py
-│ │    │    ├── test\_s3\_backend.py # Unit tests for s3\_backend.py
+│ │    │    ├── test_deployer.py # Unit tests for deployer.py
+│ │    │    ├── test_node_manager.py # Unit tests for node\_manager.py
+│ │    │    ├── test_utils/
+│ │    │    ├── test_yaml_loader.py # Unit tests for yaml\_loader.py
+│ │    │    ├── test_s3_backend.py # Unit tests for s3\_backend.py
 │ ├── main.py # Entry point for the Python codebase
 │ ├── bash/
 │ ├── scripts/
-│ │    ├── configure\_splunk\_node.sh # Script to configure Splunk nodes
-│ │    ├── deploy\_infrastructure.sh # Script to deploy AWS infrastructure
-│ │    ├── common\_functions.sh # Reusable functions for Bash scripts
+│ │    ├── configure_splunk_node.sh # Script to configure Splunk nodes
+│ │    ├── deploy_infrastructure.sh # Script to deploy AWS infrastructure
+│ │    ├── common_functions.sh # Reusable functions for Bash scripts
 │ ├── tests/
-│ │    ├── test\_configure\_splunk\_node.sh # Tests for configuring Splunk nodes
-│ │    ├── test\_deploy\_infrastructure.sh # Tests for infrastructure deployment
+│ │    ├── test_configure_splunk_node.sh # Tests for configuring Splunk nodes
+│ │    ├── test_deploy_infrastructure.sh # Tests for infrastructure deployment
 │ ├── .github/
 │ ├── CODEOWNERS # Default reviewers for PRs
 │ ├── workflows/
