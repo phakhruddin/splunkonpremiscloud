@@ -1,18 +1,51 @@
-# Splunk Enterprise Deployment in AWS
+# On Premise Splunk Enterprise Deployment in AWS
 
 This repository provides a foundational setup for deploying and managing Splunk Enterprise in AWS using a combination of Python, Bash, and YAML configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
 
 ---
+The formatting issue is caused by the lack of proper Markdown syntax for code blocks and alignment. To fix this and ensure the directory structure displays properly, enclose it in a code block with triple backticks (\`\`\`) and specify the language (`plaintext` or leave it blank for generic formatting).
 
-## Directory Structure
+Here’s the corrected version:
 
-├── splunk\_deployment.yaml # YAML configuration for Splunk deployment
+### **Directory Structure**
 
-├── splunk\_deployer.py # Python script to provision and manage AWS infrastructure
+```
 
-├── configure\_splunk\_node.sh # Bash script for configuring individual Splunk nodes
-
-├── README.md # Documentation
+. ├── python/
+│ ├── splunk/ │
+│ ├── __init__.py # Module initializer for Python
+│ │    ├── deployer.py # Deployment management for Splunk
+│ │    ├── node\_manager.py # EC2 node configuration and management
+│ │    ├── utils/
+│ │    │    ├── __init__.py # Utility module initializer
+│ │    │    ├── yaml\_loader.py # Utility for loading YAML configuration
+│ │    │    ├── s3\_backend.py # Utility for managing S3 backend
+│ │    │    ├── ec2\_helper.py # Helper for EC2 operations
+│ ├── tests/
+│ │    │    ├── test\_deployer.py # Unit tests for deployer.py
+│ │    │    ├── test\_node\_manager.py # Unit tests for node\_manager.py
+│ │    │    ├── test\_utils/
+│ │    │    ├── test\_yaml\_loader.py # Unit tests for yaml\_loader.py
+│ │    │    ├── test\_s3\_backend.py # Unit tests for s3\_backend.py
+│ ├── main.py # Entry point for the Python codebase
+│ ├── bash/
+│ ├── scripts/
+│ │    ├── configure\_splunk\_node.sh # Script to configure Splunk nodes
+│ │    ├── deploy\_infrastructure.sh # Script to deploy AWS infrastructure
+│ │    ├── common\_functions.sh # Reusable functions for Bash scripts
+│ ├── tests/
+│ │    ├── test\_configure\_splunk\_node.sh # Tests for configuring Splunk nodes
+│ │    ├── test\_deploy\_infrastructure.sh # Tests for infrastructure deployment
+│ ├── .github/
+│ ├── CODEOWNERS # Default reviewers for PRs
+│ ├── workflows/
+│ ├── python-ci.yml # GitHub Actions workflow for Python
+│ ├── bash-ci.yml # GitHub Actions workflow for Bash
+│ ├── splunk\_deployment.yaml # Configuration file for deployment
+├── README.md # Project documentation
+├── requirements.txt # Python dependencies
+├── setup.py # Python package setup (optional)
+```
 
 ---
 
