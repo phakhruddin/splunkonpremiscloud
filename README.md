@@ -2,10 +2,6 @@
 
 This repository provides a foundational setup for deploying and managing Splunk Enterprise in AWS using a combination of Python, Bash, and YAML configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
 
----
-The formatting issue is caused by the lack of proper Markdown syntax for code blocks and alignment. To fix this and ensure the directory structure displays properly, enclose it in a code block with triple backticks (\`\`\`) and specify the language (`plaintext` or leave it blank for generic formatting).
-
-Here’s the corrected version:
 
 ### **Directory Structure**
 
