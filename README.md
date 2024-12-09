@@ -40,6 +40,34 @@ This repository provides a foundational setup for deploying and managing Splunk 
 │ ├── python-ci.yml # GitHub Actions workflow for Python
 │ ├── bash-ci.yml # GitHub Actions workflow for Bash
 │ ├── splunk\_deployment.yaml # Configuration file for deployment
+│ terraform-root/
+│ ├── modules/
+│ │   ├── aws/
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── splunk/
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── monitoring/                 # Optional
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── iam/                        # Optional
+│ │       ├── main.tf
+│ │       ├── outputs.tf
+│ │       ├── variables.tf
+│ ├── envs/
+│ │   ├── dev/
+│ │   │   ├── main.tf
+│ │   ├── prod/
+│ │       ├── main.tf
+│ ├── backend-config.tf               # Backend S3 and DynamoDB
+│ ├── vpc_config.yaml                 # YAML Configuration File
+│ ├── variables.tf                    # Root-level variables
+│ ├── outputs.tf                      # Root-level outputs
+│ └── main.tf                         # Root-level orchestration
 ├── README.md # Project documentation
 ├── requirements.txt # Python dependencies
 ├── setup.py # Python package setup (optional)
