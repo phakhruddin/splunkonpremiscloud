@@ -1,1 +1,1 @@
-# Entry point for the Python codebase
+# Entry point for managing Splunk configurations

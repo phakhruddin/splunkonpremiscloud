@@ -1,1 +1,1 @@
-# Module initializer for Python
+# Splunk Python Module: Manages Splunk configurations
