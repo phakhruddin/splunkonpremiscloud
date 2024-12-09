@@ -1,1 +1,1 @@
-# Utility for loading YAML configuration
+# Utility to load and validate YAML files
