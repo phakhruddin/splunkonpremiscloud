@@ -1,11 +1,9 @@
+# Project documentation
+
 # On Premise Splunk Enterprise Deployment in AWS
 
 This repository provides a foundational setup for deploying and managing Splunk Enterprise in AWS using a combination of Python, Bash, and YAML configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
 
----
-The formatting issue is caused by the lack of proper Markdown syntax for code blocks and alignment. To fix this and ensure the directory structure displays properly, enclose it in a code block with triple backticks (\`\`\`) and specify the language (`plaintext` or leave it blank for generic formatting).
-
-Here’s the corrected version:
 
 ### **Directory Structure**
 
@@ -42,6 +40,34 @@ Here’s the corrected version:
 │ ├── python-ci.yml # GitHub Actions workflow for Python
 │ ├── bash-ci.yml # GitHub Actions workflow for Bash
 │ ├── splunk\_deployment.yaml # Configuration file for deployment
+│ terraform-root/
+│ ├── modules/
+│ │   ├── aws/
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── splunk/
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── monitoring/                 # Optional
+│ │   │   ├── main.tf
+│ │   │   ├── outputs.tf
+│ │   │   ├── variables.tf
+│ │   ├── iam/                        # Optional
+│ │       ├── main.tf
+│ │       ├── outputs.tf
+│ │       ├── variables.tf
+│ ├── envs/
+│ │   ├── dev/
+│ │   │   ├── main.tf
+│ │   ├── prod/
+│ │       ├── main.tf
+│ ├── backend-config.tf               # Backend S3 and DynamoDB
+│ ├── vpc_config.yaml                 # YAML Configuration File
+│ ├── variables.tf                    # Root-level variables
+│ ├── outputs.tf                      # Root-level outputs
+│ └── main.tf                         # Root-level orchestration
 ├── README.md # Project documentation
 ├── requirements.txt # Python dependencies
 ├── setup.py # Python package setup (optional)
