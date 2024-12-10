@@ -2,8 +2,10 @@
 
 # On Premise Splunk Enterprise Deployment in AWS
 
-![Python CI](https://github.com/dbaycoinc/splunkonpremiscloud/workflows/python.yml/badge.svg)
-![Terraform CI](https://github.com/dbaycoinc/splunkonpremiscloud/workflows/terraform.yml/badge.svg)
+![Python CI](https://github.com/dbaycoinc/splunkonpremiscloud/actions/workflows/python.yml/badge.svg)
+
+![Terraform CI](https://github.com/dbaycoinc/splunkonpremiscloud/actions/workflows/terraform.yml/badge.svg)
+
 ![Coverage Status](https://img.shields.io/codecov/c/github/dbaycoinc/splunkonpremiscloud)
 
 This repository provides a foundational GitOps setup for deploying and managing Splunk Enterprise in AWS using a combination of Terraform, Python, Bash, and YAML declarative configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
