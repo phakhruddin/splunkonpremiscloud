@@ -8,10 +8,10 @@ provider "splunk" {
 resource "splunk_index" "indexes" {
   for_each = toset(var.index_names)
 
-  name       = each.value
-  max_size   = var.index_max_size
-  home_path  = "/opt/splunk/var/lib/splunk/${each.value}/db"
-  cold_path  = "/opt/splunk/var/lib/splunk/${each.value}/colddb"
+  name        = each.value
+  max_size    = var.index_max_size
+  home_path   = "/opt/splunk/var/lib/splunk/${each.value}/db"
+  cold_path   = "/opt/splunk/var/lib/splunk/${each.value}/colddb"
   thawed_path = "/opt/splunk/var/lib/splunk/${each.value}/thaweddb"
 
   depends_on = [splunk_server_configuration.main]
