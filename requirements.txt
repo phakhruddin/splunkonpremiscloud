@@ -1,2 +1,24 @@
-# Python dependencies
-flake8
+# Linting
+flake8==6.0.0
+black==23.9.1
+isort==5.12.0
+
+# Testing
+pytest==7.3.1
+pytest-cov==4.0.0
+coverage==7.2.7
+
+# Type Checking
+mypy==1.5.1
+
+# Dependency Management
+pip-tools==6.14.0
+
+# Project-Specific Dependencies
+requests==2.31.0
+pyyaml==6.0.1
+splunk-sdk==1.6.16
+
+# Optional Utilities
+tox==4.11.0
+pre-commit==3.4.0
