@@ -14,73 +14,87 @@ This repository provides a foundational GitOps setup for deploying and managing 
 ### **Directory Structure**
 
 ```
-
 .
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── Dockerfile
 ├── Makefile
 ├── README.md
-├── bash
-│   ├── scripts
-│   │   ├── common_functions.sh
-│   │   ├── configure_splunk_node.sh
-│   │   └── deploy_infrastructure.sh
-│   └── tests
-│       ├── test_configure_splunk_node.sh
-│       └── test_deploy_infrastructure.sh
-├── python
-│   ├── main.py
-│   ├── scripts
-│   │   └── setup_splunk.sh
-│   ├── splunk
-│   │   ├── __init__.py
-│   │   ├── deployer.py
-│   │   ├── node_manager.py
-│   │   ├── tests
-│   │   │   ├── test_deployer.py
-│   │   │   ├── test_node_manager.py
-│   │   │   └── test_utils
-│   │   │       ├── test_splunk_api.py
-│   │   │       └── test_yaml_loader.py
-│   │   └── utils
-│   │       ├── __init__.py
-│   │       ├── ec2_helper.py
-│   │       ├── ec2_manager.py
-│   │       ├── s3_backend.py
-│   │       ├── splunk_api.py
-│   │       └── yaml_loader.py
-│   └── tests
-│       ├── test_deployer.py
-│       ├── test_node_manager.py
-│       └── test_utils
-│           ├── test_s3_backend.py
-│           └── test_yaml_loader.py
+├── ROADMAP.md
+├── SECURITY.md
+├── core
+│   ├── bash
+│   │   ├── scripts
+│   │   │   ├── common_functions.sh
+│   │   │   ├── configure_splunk_node.sh
+│   │   │   └── deploy_infrastructure.sh
+│   │   └── tests
+│   │       ├── test_configure_splunk_node.sh
+│   │       └── test_deploy_infrastructure.sh
+│   └── python
+│       ├── main.py
+│       ├── scripts
+│       │   └── setup_splunk.sh
+│       ├── splunk
+│       │   ├── __init__.py
+│       │   ├── deployer.py
+│       │   ├── node_manager.py
+│       │   ├── tests
+│       │   │   ├── test_deployer.py
+│       │   │   ├── test_node_manager.py
+│       │   │   └── test_utils
+│       │   │       ├── test_splunk_api.py
+│       │   │       └── test_yaml_loader.py
+│       │   └── utils
+│       │       ├── __init__.py
+│       │       ├── ec2_helper.py
+│       │       ├── ec2_manager.py
+│       │       ├── s3_backend.py
+│       │       ├── splunk_api.py
+│       │       └── yaml_loader.py
+│       └── tests
+│           ├── test_deployer.py
+│           ├── test_node_manager.py
+│           └── test_utils
+│               ├── test_s3_backend.py
+│               └── test_yaml_loader.py
 ├── requirements.txt
 ├── setup.py
 ├── splunk_deployment.yaml
-└── terraform
-    ├── envs
-    │   ├── dev
-    │   │   ├── backend.tf
-    │   │   ├── main.tf
-    │   │   └── variables.tfvars
-    │   └── prod
-    │       ├── backend.tf
-    │       ├── main.tf
-    │       └── variables.tfvars
-    ├── modules
-    │   ├── aws
-    │   │   ├── nacl
-    │   │   │   ├── main.tf
-    │   │   │   ├── outputs.tf
-    │   │   │   └── variables.tf
-    │   │   └── vpc
-    │   │       ├── main.tf
-    │   │       ├── outputs.tf
-    │   │       └── variables.tf
-    │   └── splunk
-    │       ├── main.tf
-    │       ├── outputs.tf
-    │       └── variables.tf
-    └── vpc_config.yaml
+├── terraform
+│   ├── envs
+│   │   ├── dev
+│   │   │   ├── backend.tf
+│   │   │   ├── main.tf
+│   │   │   └── variables.tfvars
+│   │   └── prod
+│   │       ├── backend.tf
+│   │       ├── main.tf
+│   │       └── variables.tfvars
+│   ├── modules
+│   │   ├── aws
+│   │   │   ├── nacl
+│   │   │   │   ├── main.tf
+│   │   │   │   ├── outputs.tf
+│   │   │   │   └── variables.tf
+│   │   │   └── vpc
+│   │   │       ├── main.tf
+│   │   │       ├── outputs.tf
+│   │   │       └── variables.tf
+│   │   └── splunk
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       └── variables.tf
+│   └── vpc_config.yaml
+└── user_inputs
+    ├── admin
+    │   └── cloud
+    │       └── aws
+    │           └── vpc_config.yaml
+    └── splunk
+        └── department
+            └── sales
+                └── example_splunk.yaml
 
 ```
 
