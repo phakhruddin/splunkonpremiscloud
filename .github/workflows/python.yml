@@ -25,7 +25,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Lint Python Files
-      run: flake8 python/
+      run: flake8 core/python/
 
 # TODO: run pytest once the code completed
 #    - name: Run Tests
