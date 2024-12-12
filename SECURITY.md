@@ -20,7 +20,7 @@ The following table lists the versions of this project that are actively support
 If you discover a security vulnerability, please report it responsibly by following the steps below:
 
 1. **Contact Us**
-   - Email the security team directly at **[phakhruddin@gmail.com]**.
+   - Email the security team directly at **[dbaycoinc@gmail.com]**.
    - Include the word **"SECURITY"** in the subject line to ensure it is addressed promptly.
 
 2. **Provide Details**
@@ -90,4 +90,4 @@ If you discover a security vulnerability, please report it responsibly by follow
 
 ## Questions or Feedback
 
-If you have questions about this security policy or need additional guidance, feel free to reach out to us at **[security-team@example.com]**.
+If you have questions about this security policy or need additional guidance, feel free to reach out to us at **[dbaycoinc@gmail.com]**.
