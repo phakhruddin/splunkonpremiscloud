@@ -1,1 +1,2 @@
-# Unit tests for node_manager.py
+def test_example_function():
+    assert True

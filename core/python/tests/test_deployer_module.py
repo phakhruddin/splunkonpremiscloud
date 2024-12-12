@@ -1,1 +1,2 @@
-# Sample fixture for initializing the Deployer class
+def test_dummy():
+    assert 1 == 1
