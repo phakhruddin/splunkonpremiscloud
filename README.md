@@ -15,6 +15,8 @@ Splunk On-Premise Cloud
 
 ![Issues](https://img.shields.io/github/issues/phakhruddin/splunkonpremiscloud.svg)
 
+[![Slack](https://img.shields.io/badge/Slack-Connect%20With%20Us-blue?logo=slack)](https://join.slack.com/t/splunkonpremiscloud/shared_invite/zt-2wc93zbxt-CED0f3d9gJSP~i40IRsl2Q)
+
 This repository provides a foundational GitOps setup for deploying and managing Splunk Enterprise in AWS using a combination of Terraform, Python, Bash, and YAML declarative configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
 
 # On Premise Splunk Enterprise Deployment in AWS
