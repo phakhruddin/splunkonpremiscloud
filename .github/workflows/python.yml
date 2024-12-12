@@ -27,6 +27,10 @@ jobs:
     - name: Lint Python Files
       run: flake8 core/python/
 
-# TODO: run pytest once the code completed
     - name: Run Tests
-      run: pytest
+      run: pytest --cov --cov-report=xml
+
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
