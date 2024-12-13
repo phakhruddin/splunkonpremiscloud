@@ -57,17 +57,7 @@ class SplunkManager:
 
     def create_index(self, index_name: str, max_size_mb: int = None,
                      home_path: str = None) -> dict:
-        """
-        Creates a new Splunk index.
-
-        Args:
-            index_name (str): Name of the new index.
-            max_size_mb (int, optional): Maximum size of the index in MB. Defaults to None.
-            home_path (str, optional): Custom home path for the index. Defaults to None.
-
-        Returns:
-            dict: Response from the Splunk API.
-        """
+        """Creates a new Splunk index."""
         index_url = f"{self.base_url}/services/data/indexes"
         payload = {"name": index_name}
         if max_size_mb:
@@ -84,27 +74,14 @@ class SplunkManager:
         return response.json()
 
     def delete_index(self, index_name: str) -> dict:
-        """
-        Deletes an existing Splunk index.
-
-        Args:
-            index_name (str): Name of the index to delete.
-
-        Returns:
-            dict: Response from the Splunk API.
-        """
+        """Deletes an existing Splunk index."""
         index_url = f"{self.base_url}/services/data/indexes/{index_name}"
         response = requests.delete(index_url, auth=self.auth, verify=False)
         response.raise_for_status()
         return response.json()
 
     def list_indexes(self) -> list:
-        """
-        Lists all Splunk indexes.
-
-        Returns:
-            list: A list of indexes and their properties.
-        """
+        """Lists all Splunk indexes."""
         index_url = f"{self.base_url}/services/data/indexes"
         response = requests.get(
             index_url,
@@ -116,15 +93,7 @@ class SplunkManager:
         return response.json().get("entry", [])
 
     def get_index_details(self, index_name: str) -> dict:
-        """
-        Retrieves details of a specific Splunk index.
-
-        Args:
-            index_name (str): Name of the index.
-
-        Returns:
-            dict: The index details in JSON format.
-        """
+        """Retrieves details of a specific Splunk index."""
         index_url = f"{self.base_url}/services/data/indexes/{index_name}"
         response = requests.get(
             index_url,
@@ -135,9 +104,93 @@ class SplunkManager:
         response.raise_for_status()
         return response.json()
 
-    # --- Other Methods ---
-    # Add your other methods (search, app management, server control, etc.)
-    # here.
+    # --- Search Methods ---
+
+    def execute_search(self, query: str, earliest_time: str = "-1h",
+                       latest_time: str = "now") -> dict:
+        """Executes a Splunk search query."""
+        search_url = f"{self.base_url}/services/search/jobs"
+        payload = {
+            "search": f"search {query}",
+            "earliest_time": earliest_time,
+            "latest_time": latest_time,
+            "output_mode": "json",
+        }
+        response = requests.post(
+            search_url,
+            data=payload,
+            auth=self.auth,
+            verify=False)
+        response.raise_for_status()
+        job = response.json()
+        return self.get_search_results(job["sid"])
+
+    def get_search_results(self, sid: str) -> dict:
+        """Fetches the results of a search job."""
+        results_url = f"{self.base_url}/services/search/jobs/{sid}/results"
+        response = requests.get(
+            results_url,
+            auth=self.auth,
+            verify=False,
+            params={
+                "output_mode": "json"})
+        response.raise_for_status()
+        return response.json()
+
+    # --- App Management Methods ---
+
+    def install_app(self, app_package: str) -> dict:
+        """Installs a Splunk app using a package file."""
+        upload_url = f"{self.base_url}/services/apps/local"
+        with open(app_package, "rb") as file:
+            files = {"appfile": file}
+            response = requests.post(
+                upload_url,
+                files=files,
+                auth=self.auth,
+                verify=False)
+            response.raise_for_status()
+        return response.json()
+
+    def list_installed_apps(self) -> list:
+        """Lists all installed Splunk apps."""
+        apps_url = f"{self.base_url}/services/apps/local"
+        response = requests.get(
+            apps_url,
+            auth=self.auth,
+            verify=False,
+            params={
+                "output_mode": "json"})
+        response.raise_for_status()
+        return response.json().get("entry", [])
+
+    def delete_app(self, app_name: str) -> dict:
+        """Deletes a Splunk app."""
+        app_url = f"{self.base_url}/services/apps/local/{app_name}"
+        response = requests.delete(app_url, auth=self.auth, verify=False)
+        response.raise_for_status()
+        return response.json()
+
+    # --- Server Control Methods ---
+
+    def restart_server(self) -> dict:
+        """Restarts the Splunk server."""
+        restart_url = f"{self.base_url}/services/server/control/restart"
+        response = requests.post(restart_url, auth=self.auth, verify=False)
+        response.raise_for_status()
+        return response.json()
+
+    def get_server_info(self) -> dict:
+        """Retrieves information about the Splunk server."""
+        info_url = f"{self.base_url}/services/server/info"
+        response = requests.get(
+            info_url,
+            auth=self.auth,
+            verify=False,
+            params={
+                "output_mode": "json"})
+        response.raise_for_status()
+        return response.json()
 
 
 # Example usage
@@ -146,8 +199,7 @@ if __name__ == "__main__":
     splunk = SplunkManager(
         base_url="https://rest.splunk.example.com",
         secret_name="splunk_admin_credentials",
-        # Replace with your Secrets Manager secret name
-        aws_region="us-east-1",  # Replace with your AWS region
+        aws_region="us-east-1",
     )
 
     # Example: List all indexes
