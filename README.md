@@ -1,6 +1,7 @@
-# Project documentation
+* * *
 
-# On Premise Splunk Enterprise Deployment in AWS
+Splunk On-Premise Cloud
+=======================
 
 ![Python CI](https://github.com/dbaycoinc/splunkonpremiscloud/actions/workflows/python.yml/badge.svg)
 
@@ -8,259 +9,76 @@
 
 [![codecov](https://codecov.io/gh/phakhruddin/splunkonpremiscloud/graph/badge.svg?token=NKHIE2HCLL)](https://codecov.io/gh/phakhruddin/splunkonpremiscloud)
 
-![License](https://img.shields.io/github/license/phakhruddin/splunkonpremiscloud.svg)
-
-![Contributors](https://img.shields.io/github/contributors/phakhruddin/splunkonpremiscloud.svg)
-
-![Issues](https://img.shields.io/github/issues/phakhruddin/splunkonpremiscloud.svg)
+[![Slack](https://img.shields.io/badge/Slack-Integration.Workspace.Contribution-blue?logo=slack)](https://join.slack.com/t/splunkonpremiscloud/shared_invite/zt-2wc93zbxt-CED0f3d9gJSP~i40IRsl2Q)
 
 This repository provides a foundational GitOps setup for deploying and managing Splunk Enterprise in AWS using a combination of Terraform, Python, Bash, and YAML declarative configuration files. The workflow simplifies the provisioning, configuration, and scaling of Splunk indexers, search heads, deployers, and cluster masters.
 
+# On Premise Splunk Enterprise Deployment in AWS
 
-### **Directory Structure**
+This project aims to provide a robust, scalable, and high-performance design for deploying Splunk Enterprise on an on-premise cloud infrastructure. The design and implentation are based on vetted resources, industry best practices, and the latest recommendations.
 
-```
-.
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── Dockerfile
-├── Makefile
-├── README.md
-├── ROADMAP.md
-├── SECURITY.md
-├── core
-│   ├── bash
-│   │   ├── scripts
-│   │   │   ├── common_functions.sh
-│   │   │   ├── configure_splunk_node.sh
-│   │   │   └── deploy_infrastructure.sh
-│   │   └── tests
-│   │       ├── test_configure_splunk_node.sh
-│   │       └── test_deploy_infrastructure.sh
-│   └── python
-│       ├── main.py
-│       ├── scripts
-│       │   └── setup_splunk.sh
-│       ├── splunk
-│       │   ├── __init__.py
-│       │   ├── deployer.py
-│       │   ├── node_manager.py
-│       │   ├── tests
-│       │   │   ├── test_deployer.py
-│       │   │   ├── test_node_manager.py
-│       │   │   └── test_utils
-│       │   │       ├── test_splunk_api.py
-│       │   │       └── test_yaml_loader.py
-│       │   └── utils
-│       │       ├── __init__.py
-│       │       ├── ec2_helper.py
-│       │       ├── ec2_manager.py
-│       │       ├── s3_backend.py
-│       │       ├── splunk_api.py
-│       │       └── yaml_loader.py
-│       └── tests
-│           ├── test_deployer.py
-│           ├── test_node_manager.py
-│           └── test_utils
-│               ├── test_s3_backend.py
-│               └── test_yaml_loader.py
-├── requirements.txt
-├── setup.py
-├── splunk_deployment.yaml
-├── terraform
-│   ├── envs
-│   │   ├── dev
-│   │   │   ├── backend.tf
-│   │   │   ├── main.tf
-│   │   │   └── variables.tfvars
-│   │   └── prod
-│   │       ├── backend.tf
-│   │       ├── main.tf
-│   │       └── variables.tfvars
-│   ├── modules
-│   │   ├── aws
-│   │   │   ├── nacl
-│   │   │   │   ├── main.tf
-│   │   │   │   ├── outputs.tf
-│   │   │   │   └── variables.tf
-│   │   │   └── vpc
-│   │   │       ├── main.tf
-│   │   │       ├── outputs.tf
-│   │   │       └── variables.tf
-│   │   └── splunk
-│   │       ├── main.tf
-│   │       ├── outputs.tf
-│   │       └── variables.tf
-│   └── vpc_config.yaml
-└── user_inputs
-    ├── admin
-    │   └── cloud
-    │       └── aws
-    │           └── vpc_config.yaml
-    └── splunk
-        └── department
-            └── sales
-                └── example_splunk.yaml
+Design Philosophy
+-----------------
 
-```
+The architecture of this repository is informed by the following vetted and recommended documents:
 
----
-
-## Prerequisites
-
-1. **AWS Account and CLI**:
-   - Ensure you have AWS CLI installed and configured with appropriate permissions.
-   - Required permissions: `ec2:RunInstances`, `ec2:DescribeInstances`, `s3:CreateBucket`.
-
-2. **Splunk Enterprise Installer**:
-   - Ensure Splunk installation files are accessible (downloaded via the script or manually).
-
-3. **Python Packages**:
-   - Install the required Python packages:
-     ```bash
-     pip install boto3 pyyaml
-     ```
-
-4. **SSL Certificates**:
-   - Provide the path to your SSL certificate for Splunk node configuration.
-
----
-
-## Configuration
-
-### `splunk_deployment.yaml`
-
-Define your Splunk cluster infrastructure in this YAML file. Below is a sample configuration:
-
-```yaml
-splunk_cluster:
-  name: "SplunkEnterpriseCluster"
-  certificate: "/path/to/ssl/certificate.pem"
-  s3_backend:
-    bucket_name: "splunk-data-backup"
-    region: "us-west-2"
-
-nodes:
-  indexers:
-    count: 3
-    instance_type: "m5.large"
-    ami_id: "ami-1234567890abcdef"
-    tags:
-      Role: "SplunkIndexer"
-  searchheads:
-    count: 2
-    instance_type: "t3.large"
-    ami_id: "ami-0987654321abcdef"
-    tags:
-      Role: "SplunkSearchHead"
-  deployer:
-    count: 1
-    instance_type: "t2.medium"
-    ami_id: "ami-1111222233334444"
-    tags:
-      Role: "SplunkDeployer"
-  cluster_master:
-    count: 1
-    instance_type: "t3.medium"
-    ami_id: "ami-5555666677778888"
-    tags:
-      Role: "SplunkClusterMaster"
-
-network:
-  vpc_id: "vpc-abcdefgh"
-  subnets:
-    - "subnet-12345"
-    - "subnet-67890"
-````
-
-* * *
-
-Deployment Workflow
--------------------
-
-### 1\. **Deploy Infrastructure**
-
-Use the Python script `splunk_deployer.py` to launch and configure EC2 instances as defined in `splunk_deployment.yaml`:
-
-```bash
-python splunk_deployer.py
-```
-
-#### **Features of `splunk_deployer.py`**:
-
-*   Provisions EC2 instances for Splunk roles (indexers, search heads, deployer, cluster master).
-*   Configures S3 backend for Splunk archival.
-
-* * *
-
-### 2\. **Configure Nodes**
-
-SSH into each instance and run the Bash script `configure_splunk_node.sh` with appropriate arguments:
-
-```bash
-./configure_splunk_node.sh <path_to_certificate> <node_role> <cluster_name> <s3_bucket>
-```
-
-#### **Example**:
-
-```bash
-./configure_splunk_node.sh /path/to/cert.pem indexer SplunkEnterpriseCluster splunk-data-backup
-```
-
-#### **Features of `configure_splunk_node.sh`**:
-
-*   Installs Splunk Enterprise.
-*   Configures the node for its respective role (indexer, search head, deployer, or cluster master).
-*   Attaches S3 as the archival backend for indexers and cluster master.
-
-* * *
-
-Validation
-----------
-
-1.  **EC2 Instances**:
+1.  **Splunk Enterprise Deployment on AWS**  
+    A technical brief outlining best practices for deploying Splunk on AWS, which has been adapted to suit on-premise cloud environments.  
+    [Read the document here](https://www.splunk.com/en_us/pdfs/tech-brief/deploying-splunk-enterprise-on-aws.pdf)
     
-    *   Verify that all EC2 instances are running and properly tagged.
-2.  **Splunk Configuration**:
+2.  **Splunk Enterprise System Requirements**  
+    Official Splunk documentation providing system requirements and recommendations for installing and running Splunk Enterprise effectively.  
+    [Read the documentation here](https://docs.splunk.com/Documentation/Splunk/9.3.2/Installation/Systemrequirements?utm_source=chatgpt.com)
     
-    *   Check that Splunk nodes are configured with the correct roles:
-        *   Indexers: Slave nodes in the cluster.
-        *   Search Heads: Connected to the cluster master.
-        *   Cluster Master: Manages the cluster configuration.
-3.  **S3 Backend**:
+3.  **AWS Well-Architected Framework**  
+    Guidance from AWS's Well-Architected Framework, focusing on building secure, high-performing, and resilient infrastructure. These principles are leveraged to inform on-premise design decisions.  
+    [Explore the framework here](https://aws.amazon.com/premiumsupport/business-support-well-architected/?trk=e71ac1e0-c82d-4dcb-bcde-85de0ceae1f5&sc_channel=ps&ef_id=Cj0KCQiAsOq6BhDuARIsAGQ4-zjSV2n5gxP_kGZkO5hlp6h5Etl_fXRww-XgL4DNc6WmS2XQqcXh-fUaAkVgEALw_wcB:G:s&s_kwcid=AL!4422!3!719222313837!e!!g!!aws%20well%20architected!21852254328!176452269744&gbraid=0AAAAA-aZeIX-H4LqGMQQqBFcZlL-Sv3x8&gclid=Cj0KCQiAsOq6BhDuARIsAGQ4-zjSV2n5gxP_kGZkO5hlp6h5Etl_fXRww-XgL4DNc6WmS2XQqcXh-fUaAkVgEALw_wcB)
     
-    *   Ensure that the S3 bucket is created and accessible from the Splunk indexers and cluster master.
+4.  **Best-in-Class Industry Standards**  
+    The codebase is structured based on industry-standard best practices for open-source repositories, ensuring maintainability, extensibility, and ease of collaboration.
+    
 
-* * *
+Intent and Scope
+----------------
 
-Additional Enhancements
+The intent of this project is not to compete with or divert from Splunk's SaaS offerings in the cloud. Instead, it aims to complement those offerings by addressing scenarios where SaaS solutions may not be viable or practical. While the focus is on Splunk Enterprise, the principles and design patterns showcased here can be applied to other applications requiring similar on-premises cloud architectures.
+
+Features
+--------
+
+*   Modular infrastructure-as-code (Terraform) for deploying and managing Splunk Enterprise components.
+*   Python scripts for Splunk configuration and API management, adhering to well-tested practices.
+*   CI/CD pipelines for linting, testing, and deployment using GitHub Actions.
+*   YAML-based configuration files to allow for flexible and reusable deployment setups.
+*   Pre-configured monitoring and logging best practices, inspired by the AWS Well-Architected Framework.
+
+Repository Highlights
+---------------------
+
+*   **Client-Facing Inputs**: Dedicated directories for user-provided YAML configurations.
+*   **Core Engine**: Python and Bash scripts encapsulating the deployment and configuration logic.
+*   **CI/CD Integration**: Automated workflows for testing, linting, and deploying updates.
+*   **Documentation**: Comprehensive guides for setting up and using the repository.
+
+Getting Started
+---------------
+
+1.  Clone this repository:
+    
+    ```bash
+    git clone https://github.com/phakhruddin/splunkonpremiscloud.git
+    ```
+    
+2.  Review the documentation for setup and configuration details.
+
+Contribution Guidelines
 -----------------------
 
-1.  **Auto Scaling**:
-    
-    *   Integrate AWS Auto Scaling Groups for indexers and search heads.
-2.  **Monitoring**:
-    
-    *   Use AWS CloudWatch for monitoring EC2 and S3 performance.
-3.  **Automation**:
-    
-    *   Automate configuration using Ansible or Chef.
-
-* * *
-
-Contributing
-------------
-
-Feel free to submit issues or pull requests for new features and improvements. Contributions are welcome!
-
-* * *
+Contributions are welcome! Please refer to our [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get involved.
 
 License
 -------
 
-This project is open-sourced under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-
----
-
-This will serves as a comprehensive guide for deploying and managing Splunk Enterprise in AWS as it grows. This project and its configurations are entirely original and based on a hypothetical design approach for a mock-up company. It does not replicate, copy, or reuse any proprietary configurations or designs from any previous companies or projects. Instead, it reflects my personal approach to redesigning and managing Splunk Enterprise in AWS, based on industry best practices and my professional expertise. Let me know if you need further modifications or additional sections!
+* * *
