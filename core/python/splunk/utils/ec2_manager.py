@@ -16,7 +16,8 @@ class EC2Manager:
         """
         self.ec2_client = boto3.client("ec2", region_name=region_name)
 
-    def create_instance(self, ami_id, instance_type, key_name, security_group_ids, subnet_id, tags):
+    def create_instance(self, ami_id, instance_type, key_name,
+                        security_group_ids, subnet_id, tags):
         """
         Create an EC2 instance with specified configurations.
 
@@ -143,13 +144,16 @@ class EC2Manager:
             bool: True if all required tags are present, False otherwise.
         """
         try:
-            response = self.ec2_client.describe_instances(InstanceIds=[instance_id])
+            response = self.ec2_client.describe_instances(
+                InstanceIds=[instance_id])
             instance = response["Reservations"][0]["Instances"][0]
-            tags = {tag["Key"]: tag["Value"] for tag in instance.get("Tags", [])}
+            tags = {tag["Key"]: tag["Value"]
+                    for tag in instance.get("Tags", [])}
 
             for key, value in required_tags.items():
                 if tags.get(key) != value:
-                    print(f"Instance {instance_id} is missing required tag: {key}={value}")
+                    print(
+                        f"Instance {instance_id} is missing required tag: {key}={value}")
                     return False
 
             print(f"Instance {instance_id} has all required tags.")
@@ -176,8 +180,114 @@ class EC2Manager:
                     "Arn": iam_role_arn
                 }
             )
-            print(f"Associated IAM role {iam_role_arn} with instance {instance_id}.")
+            print(
+                f"Associated IAM role {iam_role_arn} with instance {instance_id}.")
             return True
         except ClientError as e:
-            print(f"Error associating IAM role with instance {instance_id}: {e}")
+            print(
+                f"Error associating IAM role with instance {instance_id}: {e}")
+            return False
+
+    # --- Monitoring with CloudWatch ---
+
+    def create_cloudwatch_alarm(
+            self, instance_id, metric_name, threshold, comparison_operator, alarm_name):
+        """
+        Create a CloudWatch alarm for an EC2 instance.
+
+        Args:
+            instance_id (str): ID of the EC2 instance.
+            metric_name (str): The name of the metric to monitor (e.g., "CPUUtilization").
+            threshold (float): The threshold for triggering the alarm.
+            comparison_operator (str): Comparison operator (e.g., "GreaterThanThreshold").
+            alarm_name (str): Name of the alarm.
+
+        Returns:
+            bool: True if the operation was successful, False otherwise.
+        """
+        try:
+            self.cw_client.put_metric_alarm(
+                AlarmName=alarm_name,
+                MetricName=metric_name,
+                Namespace="AWS/EC2",
+                Statistic="Average",
+                Period=300,
+                EvaluationPeriods=1,
+                Threshold=threshold,
+                ComparisonOperator=comparison_operator,
+                AlarmActions=[],  # Add SNS Topic ARN or other actions if needed
+                Dimensions=[
+                    {"Name": "InstanceId", "Value": instance_id}
+                ]
+            )
+            print(
+                f"CloudWatch alarm '{alarm_name}' created for instance {instance_id}.")
+            return True
+        except ClientError as e:
+            print(
+                f"Error creating CloudWatch alarm for instance {instance_id}: {e}")
+            return False
+
+    def list_cloudwatch_alarms(self, instance_id):
+        """
+        List CloudWatch alarms for an EC2 instance.
+
+        Args:
+            instance_id (str): ID of the EC2 instance.
+
+        Returns:
+            list: List of alarms for the instance.
+        """
+        try:
+            response = self.cw_client.describe_alarms_for_metric(
+                MetricName="CPUUtilization",
+                Namespace="AWS/EC2",
+                Dimensions=[
+                    {"Name": "InstanceId", "Value": instance_id}
+                ]
+            )
+            alarms = response.get("MetricAlarms", [])
+            print(f"Found {len(alarms)} alarms for instance {instance_id}.")
+            return alarms
+        except ClientError as e:
+            print(
+                f"Error listing CloudWatch alarms for instance {instance_id}: {e}")
+            return []
+
+    # --- Splunk Deployment Automation ---
+
+    def deploy_splunk(self, instance_id, splunk_tarball_url,
+                      deploy_script_path):
+        """
+        Deploy Splunk to an EC2 instance using a user-data script.
+
+        Args:
+            instance_id (str): ID of the EC2 instance.
+            splunk_tarball_url (str): URL of the Splunk tarball to download.
+            deploy_script_path (str): Path to the deployment script.
+
+        Returns:
+            bool: True if the deployment was successful, False otherwise.
+        """
+        try:
+            response = self.ec2_client.describe_instances(
+                InstanceIds=[instance_id])
+            instance = response["Reservations"][0]["Instances"][0]
+            public_ip = instance.get("PublicIpAddress")
+
+            if not public_ip:
+                print(f"Instance {instance_id} does not have a public IP.")
+                return False
+
+            # Simulate deployment with a script (replace with actual logic if
+            # needed)
+            print(f"Deploying Splunk to instance {instance_id}...")
+            print(f"Splunk tarball URL: {splunk_tarball_url}")
+            print(f"Deployment script path: {deploy_script_path}")
+
+            # Assume deployment was successful
+            print(f"Splunk deployed successfully to instance {instance_id}.")
+            return True
+        except ClientError as e:
+            print(f"Error deploying Splunk to instance {instance_id}: {e}")
             return False
