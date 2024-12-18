@@ -1,10 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-import logging
 import time
-import paramiko
-import os
-import subprocess
 
 
 class EC2NodeManager:
@@ -126,6 +122,7 @@ class EC2NodeManager:
                     ]
                 }
             )
+            print(f"response is: {response}.")
             print(f"SSM agent installation started on instance {instance_id}.")
         except ClientError as e:
             print(f"Error installing SSM agent on instance {instance_id}: {e}")
@@ -184,6 +181,7 @@ class EC2NodeManager:
                 DocumentName="AWS-RunShellScript",
                 Parameters={"commands": commands}
             )
+            print(f"response is: {response}.")
             print(f"Splunk configuration started on instance {instance_id}.")
             return True
         except ClientError as e:
