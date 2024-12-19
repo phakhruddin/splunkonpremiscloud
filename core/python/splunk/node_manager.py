@@ -6,7 +6,7 @@ import time
 class EC2NodeManager:
     """
     A utility class for managing EC2 instances for Splunk deployment.
-    Handles provisioning, SSM agent checks, tagging, and 
+    Handles provisioning, SSM agent checks, tagging, and
     EC2 node configuration.
     """
 
@@ -51,8 +51,8 @@ class EC2NodeManager:
                 TagSpecifications=[
                     {
                         "ResourceType": "instance",
-                        "Tags": [{"Key": "Name", "Value": instance_name}] + tags 
-                        if tags 
+                        "Tags": [{"Key": "Name", "Value": instance_name}] + tags
+                        if tags
                         else [{"Key": "Name", "Value": instance_name}]
                     }
                 ]
