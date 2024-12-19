@@ -6,7 +6,8 @@ import time
 class EC2NodeManager:
     """
     A utility class for managing EC2 instances for Splunk deployment.
-    Handles provisioning, SSM agent checks, tagging, and EC2 node configuration.
+    Handles provisioning, SSM agent checks, tagging, and 
+    EC2 node configuration.
     """
 
     def __init__(self, region_name="us-east-1"):
@@ -50,7 +51,9 @@ class EC2NodeManager:
                 TagSpecifications=[
                     {
                         "ResourceType": "instance",
-                        "Tags": [{"Key": "Name", "Value": instance_name}] + tags if tags else [{"Key": "Name", "Value": instance_name}]
+                        "Tags": [{"Key": "Name", "Value": instance_name}] + tags 
+                        if tags 
+                        else [{"Key": "Name", "Value": instance_name}]
                     }
                 ]
             )
@@ -115,11 +118,9 @@ class EC2NodeManager:
                 DocumentName="AWS-RunShellScript",
                 Parameters={
                     "commands": [
-                        "curl https://amazon-ssm-{0}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o /tmp/amazon-ssm-agent.rpm".format(
-                            self.region),
-                        "sudo rpm -i /tmp/amazon-ssm-agent.rpm",
-                        "sudo systemctl start amazon-ssm-agent"
-                    ]
+                        "aws s3 cp s3://splunk-example-pub/installssm.sh - | sh -x"
+                    ],
+                    "executionTimeout": ["3600"]
                 }
             )
             print(f"response is: {response}.")
@@ -173,7 +174,8 @@ class EC2NodeManager:
                     f"echo '{splunk_conf['index']}' > /opt/splunk/etc/system/local/indexes.conf")
             if "forwarder" in splunk_conf:
                 commands.append(
-                    f"echo '{splunk_conf['forwarder']}' > /opt/splunk/etc/system/local/inputs.conf")
+                    f"echo '{splunk_conf['forwarder']}' > \
+                        /opt/splunk/etc/system/local/inputs.conf")
 
             # Send the commands to the EC2 instance to configure Splunk
             response = self.ssm_client.send_command(
